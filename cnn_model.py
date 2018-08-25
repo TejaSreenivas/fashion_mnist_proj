@@ -29,7 +29,8 @@ class model:
 		with tf.variable_scope("conv_2",reuse = tf.AUTO_REUSE):
 			conv2 = create_conv_layer(conv1, [ param[2][0], param[2][0], param[1][1], param[2][1] ], [1]*4, "SAME")
 			conv2 = tf.nn.max_pool(conv2,ksize = [1,2,2,1],strides = [1,2,2,1], padding = 'SAME')
-			#conv2 = tf.layers.batch_normalization(conv2,training=is_train)
+			conv2 = tf.layers.batch_normalization(conv2,training=is_train)
+
 		with tf.variable_scope("flatten",reuse = tf.AUTO_REUSE):
 			flat = tf.reshape(conv2, [ -1,7*7*param[2][1] ] )
 
@@ -81,17 +82,23 @@ class model:
 
 	def total_params(self):
 		count = 0
+		info = ""
 		for var in tf.trainable_variables():
 			shape = var.get_shape()
 			p = 1
+			info = info + "varname : "+var.name+"-("
 			print("varname : " + var.name,end=' ')
 			l = []
 			for d in shape:
 				p*=d
+				info = info + " " + str(d)
 				l.append(d)
 			count+=p
 			print(l)
+			info = info+" )$"
+		info = info + "total param count : "+str(count)
 		print("total number of trainable parameter : {}".format(count))
+		return info
 		
 
 	def __init__(self, data,is_train,prob_keep,param):
