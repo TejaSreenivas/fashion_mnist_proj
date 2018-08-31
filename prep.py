@@ -2,6 +2,7 @@ import numpy as np
 import os
 import load_mnist
 
+
 def reshape_image(x):
     x = np.transpose(x,[0,2,3,1])
     return x
@@ -28,5 +29,28 @@ def fashion_funct():
 	print(np.max(fashion['test_y']),np.min(fashion['test_y']))
 	print(np.max(fashion['train_y']),np.min(fashion['train_y']))
 	return fashion
+
+def merger():
+	mnist = mnist_funct()
+	fashion = fashion_funct()
+	merged = dict()
+	merged['train_x'] = np.vstack((mnist['train_x'],fashion['train_x']))
+	merged['train_y'] = np.hstack((mnist['train_y'],fashion['train_y']))
+	merged['test_x']  = np.vstack((mnist['test_x'],fashion['test_x']))
+	merged['test_y']  = np.hstack((mnist['test_y'],fashion['test_y']))
+	shuffle_train = np.random.permutation(merged['train_x'].shape[0])
+	shuffle_test  = np.random.permutation(merged['test_x'].shape[0])
+	np.take(merged['train_x'],shuffle_train,axis=0,out=merged['train_x'])
+	np.take(merged['train_y'],shuffle_train,axis=0,out=merged['train_y'])
+	np.take(merged['test_x'],shuffle_test,axis=0,out=merged['test_x'])
+	np.take(merged['test_y'],shuffle_test,axis=0,out=merged['test_y'])
+	return merged
+
+
+	
+	
+
+
+
 
 
