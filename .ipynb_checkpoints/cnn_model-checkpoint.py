@@ -25,12 +25,12 @@ class model:
 		with tf.variable_scope("conv_1",reuse = tf.AUTO_REUSE):
 			#data = tf.layers.batch_normalization(data,training=is_train)
 			conv1 = create_conv_layer(data,[ param[1][0], param[1][0], param[0], param[1][1] ], [1]*4, "SAME")
-			#conv1 = tf.layers.dropout(conv1,rate=0.4,training=is_train)
+			conv1 = tf.layers.dropout(conv1,rate=0.4,training=is_train)
 			conv1 = tf.nn.max_pool(conv1,ksize = [1,2,2,1],strides=[1,2,2,1],padding='SAME')
 
 		with tf.variable_scope("conv_2",reuse = tf.AUTO_REUSE):
 			conv2 = create_conv_layer(conv1, [ param[2][0], param[2][0], param[1][1], param[2][1] ], [1]*4, "SAME")
-			#conv2 = tf.layers.dropout(conv2,rate=0.4,training=is_train)
+			conv2 = tf.layers.dropout(conv2,rate=0.4,training=is_train)
 			conv2 = tf.nn.max_pool(conv2,ksize = [1,2,2,1],strides = [1,2,2,1], padding = 'SAME')
 			#conv2 = tf.layers.batch_normalization(conv2,training=is_train)
 
@@ -40,9 +40,12 @@ class model:
 		h1 = create_dense_layer(flat, input_size = 7*7*param[2][1], output_size = param[3])
 		h1 = tf.nn.relu(h1)
 		h1 = tf.layers.dropout(h1,rate = prob_keep, training = is_train)
-
+		#dense layer 2
+		h2= create_dense_layer(h1, input_size=param[3],output_size=256)
+		h2 = tf.nn.relu(h2)
+		h2 = tf.layers.dropout(h2,rate = prob_keep, training = is_train)
 		#logits
-		y = create_dense_layer( h1, input_size = 7*7*param[2][1], output_size = param[4] )
+		y = create_dense_layer( h2, input_size = 256, output_size = param[4] )
 		return y
 
 	"""
