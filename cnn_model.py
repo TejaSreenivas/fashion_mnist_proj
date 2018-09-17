@@ -39,8 +39,12 @@ class model:
 		h1 = create_dense_layer(flat, input_size = 7*7*param[2][1], output_size = param[3])
 		h1 = tf.nn.relu(h1)
 		h1 = tf.layers.dropout(h1,rate = prob_keep, training = is_train)
+		#dense layer 2
+		h2= create_dense_layer(h1, input_size=param[3],output_size=500)
+		h2 = tf.nn.relu(h2)
+		h2 = tf.layers.dropout(h2,rate = prob_keep, training = is_train)
 		#logits
-		y = create_dense_layer( h1, input_size = param[3], output_size = param[4] )
+		y = create_dense_layer( h2, input_size = 500, output_size = param[4] )
 		return y
 
 	"""
