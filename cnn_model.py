@@ -26,12 +26,12 @@ class model:
 			#data = tf.layers.batch_normalization(data,training=is_train)
 			conv1 = create_conv_layer(data,[ param[1][0], param[1][0], param[0], param[1][1] ], [1]*4, "SAME")
 			#conv1 = tf.layers.dropout(conv1,rate=0.4,training=is_train)
-			conv1 = tf.nn.max_pool(conv1,ksize = [1,2,2,1],strides=[1,2,2,1],padding='SAME')
+			conv1 = tf.layers.max_pooling2d(conv1,strides=2,padding='same')
 
 		with tf.variable_scope("conv_2",reuse = tf.AUTO_REUSE):
 			conv2 = create_conv_layer(conv1, [ param[2][0], param[2][0], param[1][1], param[2][1] ], [1]*4, "SAME")
 			#conv2 = tf.layers.dropout(conv2,rate=0.4,training=is_train)
-			conv2 = tf.nn.max_pool(conv2,ksize = [1,2,2,1],strides = [1,2,2,1], padding = 'SAME')
+			conv2 = tf.nn.max_pooling2d(conv2,strides=2, padding = 'same')
 			#conv2 = tf.layers.batch_normalization(conv2,training=is_train)
 
 		with tf.variable_scope("flatten",reuse = tf.AUTO_REUSE):
