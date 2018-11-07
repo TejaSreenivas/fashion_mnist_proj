@@ -79,5 +79,6 @@ class CNN:
         return y
 
     def __init__(self, data, is_train, prob_keep, classes):
-        self.logits = self.cnn(data, is_train, prob_keep)
         self.classes = classes
+        self.logits = self.cnn(data, is_train, prob_keep)
+        
