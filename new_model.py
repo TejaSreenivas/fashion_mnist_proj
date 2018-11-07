@@ -74,10 +74,10 @@ class CNN:
         h1 = tf.layers.dropout(h1, rate = prob_keep, training = is_train)
         #h1 = self.hidden_layer(100,h1,prob_keep,is_train)
         #h1 = self.hidden_layer(500,h1,prob_keep,is_train)
-        y = tf.layers.dense(h1, units = 10)
+        y = tf.layers.dense(h1, units = self.classes)
         #y = tf.layers.batch_normalization(inputs = y, training = is_train)
         return y
 
-    def __init__(self, data, is_train, prob_keep):
+    def __init__(self, data, is_train, prob_keep, classes):
         self.logits = self.cnn(data, is_train, prob_keep)
-        
+        self.classes = classes
