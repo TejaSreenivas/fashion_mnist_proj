@@ -66,7 +66,7 @@ class CNN:
             conv4 = tf.nn.max_pool(conv4, ksize=[1,2,2,1], strides = [1,2,2,1], padding = "SAME")
             conv4 = tf.layers.dropout(conv4, rate = prob_keep, training = is_train)
         """
-        flat = tf.layers.flatten(conv3)
+        flat = tf.layers.flatten(conv2)
         bn1 = tf.layers.batch_normalization(inputs=flat,training = is_train)
         h1 = tf.layers.dense(bn1, units=1024)
         h1 = tf.layers.batch_normalization(inputs=h1, training = is_train)
