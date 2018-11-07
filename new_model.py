@@ -29,7 +29,7 @@ class CNN:
         return out
     def hidden_layer(self,units,prev,prob_keep,is_train):
         h1 = tf.layers.dense(prev, units = units)
-        h1 = tf.layers.batch_normalization(h1, training = is_train)
+        #h1 = tf.layers.batch_normalization(h1, training = is_train)
         h1 = tf.nn.relu(h1)
         h1 = tf.layers.dropout(h1, rate = prob_keep, training = is_train)
         return h1
@@ -38,7 +38,7 @@ class CNN:
         l1 = [3,3,1,32]
         with tf.variable_scope("conv_1", reuse=tf.AUTO_REUSE):
             conv1 = self.create_conv_layer(data, l1, [1]*4, "SAME")
-            conv1 = tf.layers.batch_normalization(conv1, training = is_train)
+            #conv1 = tf.layers.batch_normalization(conv1, training = is_train)
             conv1 = tf.nn.relu(conv1)
             conv1 = tf.nn.max_pool(conv1, ksize=[1,2,2,1], strides = [1,2,2,1], padding = "SAME")
             #conv1 = tf.layers.dropout(conv1, rate = prob_keep, training = is_train)
@@ -67,9 +67,9 @@ class CNN:
             conv4 = tf.layers.dropout(conv4, rate = prob_keep, training = is_train)
         """
         flat = tf.layers.flatten(conv2)
-        bn1 = tf.layers.batch_normalization(inputs=flat,training = is_train)
-        h1 = tf.layers.dense(bn1, units=1024)
-        h1 = tf.layers.batch_normalization(inputs=h1, training = is_train)
+        #bn1 = tf.layers.batch_normalization(inputs=flat,training = is_train)
+        h1 = tf.layers.dense(flat, units=1024)
+        #h1 = tf.layers.batch_normalization(inputs=h1, training = is_train)
         h1 = tf.nn.relu(h1)
         h1 = tf.layers.dropout(h1, rate = prob_keep, training = is_train)
         #h1 = self.hidden_layer(100,h1,prob_keep,is_train)
